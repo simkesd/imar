@@ -26,5 +26,38 @@ class DefaultController extends Controller
         return array();
     }
 
+    /**
+     * @return array
+     *
+     * @Route("/admin/profile")
+     * @Template("SmartClassroomBundle:Default:index.html.twig")
+     */
+    public function profileAction()
+    {
+        return array();
+    }
+
+    /**
+     * @return array
+     *
+     * @Route("/admin/profile/edit")
+     * @Method({"GET"})
+     * @Template("SmartClassroomBundle:Auth:register.html.twig")
+     */
+    public function editProfileAction()
+    {
+        return array();
+    }
+
+    /**
+     *
+     * @Route("/admin/profile/edit")
+     * @Method({"POST"})
+     */
+    public function postEditProfileAction()
+    {
+
+    }
+
 
 }

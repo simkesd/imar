@@ -10,11 +10,37 @@ class AuthController extends Controller
 {
     /**
      * @Route("/login", name="login_get")
+     * @Method({"GET"})
      * @Template("SmartClassroomBundle:Auth:login.html.twig")
      */
-    public function indexAction()
+    public function loginAction()
     {
         return array();
+    }
+
+
+    /**
+     * @Route("/login", name="login_post")
+     * @Method({"POST"})
+     * @Template("SmartClassroomBundle:Default:index.html.twig")
+     */
+    public function postLoginAction()
+    {
+        $request = $this->get('request')->request;
+        $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($request->get('username_email'));
+
+        // Email passed. Let's encode the password sent to us using the user's salt.
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+        $encoded_pass = $encoder->encodePassword($request->get('password'), $user->getSalt());
+        // Check if the password sent to us matches encoded_pass we just created.
+        if ($encoded_pass === $user->getPassword()) {
+            $session = $this->get('session');
+            $session->set('user', $user);
+            return array();
+        }
+
+        var_dump('fail');die;
+        return $this->redirect($this->generateUrl('register_post'), 301);
     }
 
     /**
@@ -67,6 +93,14 @@ class AuthController extends Controller
         $userManager->updateUser($user);
         return $this->redirect($this->generateUrl('login_get'), 301);
 
+    }
+
+    /**
+     * @Route("/logout", name="logout_get")
+     */
+    public function logoutAction()
+    {
+        return $this->redirect($this->generateUrl('login_get'), 301);
     }
 
 }
