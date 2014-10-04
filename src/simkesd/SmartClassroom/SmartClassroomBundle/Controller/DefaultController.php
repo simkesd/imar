@@ -26,7 +26,10 @@ class DefaultController extends Controller
      */
     public function dashboardAction()
     {
-        return array();
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return array('user'=>$user);
     }
 
     /**
@@ -83,7 +86,7 @@ class DefaultController extends Controller
         if (count($errors) > 0) {
             $errorsString = (string) $errors;
             die('error');
-            return array('errors'=>$errors);
+            return array('errors'=>$errors, 'user'=>$user);
         }
 
         $userManager->updateUser($user);
@@ -105,7 +108,9 @@ class DefaultController extends Controller
         $query = $repository->createQueryBuilder('c')->getQuery();;
 
         $collections = $query->getResult();
-        return array('collections'=>$collections);
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+        return array('collections'=>$collections, 'user'=>$user);
     }
 
     /**
@@ -117,7 +122,9 @@ class DefaultController extends Controller
      */
     public function createCollectionAction()
     {
-        return array();
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+        return array('user'=>$user);
     }
 
     /**
