@@ -99,7 +99,13 @@ class DefaultController extends Controller
      */
     public function listCollectionsAction()
     {
-        return array();
+        $repository = $this->getDoctrine()
+            ->getRepository('SmartClassroomBundle:Collection');
+
+        $query = $repository->createQueryBuilder('c')->getQuery();;
+
+        $collections = $query->getResult();
+        return array('collections'=>$collections);
     }
 
     /**
