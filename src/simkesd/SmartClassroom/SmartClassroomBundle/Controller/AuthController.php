@@ -80,7 +80,7 @@ class AuthController extends Controller
         $user->setEmail($request->get('email'));
 
         if($request->get('password') != $request->get('confirm_password')) {
-            return $this->redirect($this->generateUrl('register_post'), 301);
+            return $this->redirect($this->generateUrl('register_post    '), 301);
         }
 
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);

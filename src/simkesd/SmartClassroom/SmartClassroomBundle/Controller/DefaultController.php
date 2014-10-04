@@ -2,6 +2,7 @@
 
 namespace simkesd\SmartClassroom\SmartClassroomBundle\Controller;
 
+use simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection;
 use simkesd\SmartClassroom\SmartClassroomBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -121,7 +122,18 @@ class DefaultController extends Controller
      */
     public function postCreateCollectionAction()
     {
-        return array();
+        $request = $this->get('request')->request;
+
+        $collection = new Collection();
+        $collection->setName($request->get('name'));
+        $collection->setDescription($request->get('description'));
+        $collection->setLocationDescription($request->get('locationDescription'));
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($collection);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('list_collections'), 301);
     }
 
 
