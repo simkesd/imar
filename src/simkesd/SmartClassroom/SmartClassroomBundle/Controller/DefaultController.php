@@ -90,5 +90,39 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('profile'), 301);
     }
 
+    /**
+     * @return array
+     *
+     * @Route("/admin/list-collections", name="list_collections")
+     * @Template("SmartClassroomBundle:Default:listCollections.html.twig")
+     */
+    public function listCollectionsAction()
+    {
+        return array();
+    }
+
+    /**
+     * @return array
+     *
+     * @Route("/admin/create-collection", name="create_collection")
+     * @Method({"GET"})
+     * @Template("SmartClassroomBundle:Default:createCollection.html.twig")
+     */
+    public function createCollectionAction()
+    {
+        return array();
+    }
+
+    /**
+     * @return array
+     *
+     * @Route("/admin/create-collection", name="create_collection_post")
+     * @Method({"POST"})
+     */
+    public function postCreateCollectionAction()
+    {
+        return array();
+    }
+
 
 }
