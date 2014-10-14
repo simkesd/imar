@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use simkesd\SmartClassroom\SmartClassroomBundle\Form\EditProfileType;
+use Symfony\Component\BrowserKit\Request;
+
 
 class DefaultController extends Controller
 {
@@ -42,7 +45,18 @@ class DefaultController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
 
-        return array('user'=>$user);
+        $form = $this->createFormBuilder($user)
+            ->add('email', 'text', array('data'=>$user->getEmail()))
+            ->add('username', 'text', array('data'=>$user->getUsername()))
+            ->add('save', 'submit', array('label' => 'Create Post'))
+            ->getForm();
+
+        return array('user'=>$user, 'form' => $form->createView());
+
+        $user = new User();
+
+        $form = $this->createForm(new EditProfileType(), $user);
+        exit;
     }
 
     /**
@@ -72,13 +86,22 @@ class DefaultController extends Controller
         $user->setUsername($request->get('username'));
         $user->setEmail($request->get('email'));
 
-        if($request->get('password') != $request->get('confirm_password')) {
-            return $this->redirect($this->generateUrl('register_post'), 301);
-        }
+        $form = $this->createFormBuilder($user)
+            ->add('email', 'text')
+            ->add('username', 'text')
+            ->add('save', 'submit', array('label' => 'Create Post'))
+            ->getForm();
 
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-        $password = $encoder->encodePassword($request->get('password'), $user->getSalt());
-        $user->setPassword($password);
+        $form->handleRequest($this->get('request'));
+        print_r($user);
+        exit;
+//        if($request->get('password') != $request->get('confirm_password')) {
+//            return $this->redirect($this->generateUrl('register_post'), 301);
+//        }
+
+//        $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+//        $password = $encoder->encodePassword($request->get('password'), $user->getSalt());
+//        $user->setPassword($password);
 
         $validator = $this->get('validator');
         $errors = $validator->validate($user);

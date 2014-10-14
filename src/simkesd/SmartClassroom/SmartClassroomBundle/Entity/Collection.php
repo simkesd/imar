@@ -38,10 +38,17 @@ class Collection
     /**
      * @var integer
      *
-     * @ORM\Column(name="locationDescription", type="text")
+     * @ORM\Column(name="location_description", type="text")
      */
     private $locationDescription;
 
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="Sensor", mappedBy="collections")
+     */
+    private $sensors;
 
     /**
      * Get id
@@ -121,4 +128,5 @@ class Collection
     {
         return $this->locationDescription;
     }
+
 }

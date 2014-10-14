@@ -18,6 +18,14 @@
                 </div>
             </div>
 
+
+            {#{{ form_errors(form) }}#}
+
+
+                {#{{ form_row(form.email) }}#}
+
+            {#{{ form_end(form) }}#}
+
             <!-- edit form column -->
             <div class="col-md-9 personal-info">
                 <div class="alert alert-info alert-dismissable">
@@ -27,17 +35,18 @@
                 </div>
                 <h3>Personal info</h3>
 
-                <form action="{{ url('edit_profile') }}" method="POST" class="form-horizontal" role="form">
+                {{ form_start(form, {'action': url('edit_profile') , 'method': 'POST', 'attr': {'class': 'form-horizontal', 'role': 'form'}}) }}
+                {#<form action="{{ url('edit_profile') }}" method="POST" class="form-horizontal" role="form">#}
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Username:</label>
                         <div class="col-lg-8">
-                            <input name="username" class="form-control" type="text" value="{{ user.getUsername }}">
+                            {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Email:</label>
                         <div class="col-lg-8">
-                            <input name="email" class="form-control" type="text" value="{{ user.getEmail }}">
+                            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
                         </div>
                     </div>
                     <div class="form-group">
@@ -48,6 +57,7 @@
                             <input type="reset" class="btn btn-default" value="Cancel">
                         </div>
                     </div>
+                {{ form_end(form) }}
                 </form>
             </div>
         </div>
