@@ -292,6 +292,7 @@ class DefaultController extends Controller
      * @return array
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
+     * 
      * @Route("/admin/sensor/{id}", name="single_sensor", requirements={"id" = "\d+"}, defaults={"id" = 1})
      * @Template("SmartClassroomBundle:Default:singleSensor.html.twig")
      */
@@ -314,17 +315,16 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param $id
-     * @return array
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @param $sensor_id
+     * @return Response
      *
-     * @Route("/admin/sensor-values/{id}", name="single_sensor_values", requirements={"id" = "\d+"}, defaults={"id" = 1})
+     * @Route("/admin/sensor-values/{sensor_id}", name="single_sensor_values", requirements={"sensor_id" = "\d+"})
      */
-    public function sensorValues($id)
+    public function sensorValues($sensor_id)
     {
         $sensor = $this->getDoctrine()
             ->getRepository('SmartClassroomBundle:Sensor')
-            ->find($id);
+            ->find($sensor_id);
         $sensorValues = $sensor->getSensorValues()->getValues();
 
         $values = array();

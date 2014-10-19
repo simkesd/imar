@@ -30,28 +30,7 @@
             <h3>List of sensors</h3>
             <ul>
                 {% for sensor in collection.getSensors %}
-                    <!-- Modal -->
-                    <div class="modal fade" id="sensor-{{ sensor.getId }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">{{ sensor.getName }} <small> - Sensor details</small></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div>Description: <br/>{{ sensor.getDescription }}</div>
-                                    <hr/>
-                                    <div>Parrent collection: <br/>{{ sensor.getCollection.getName }}</div>
-                                    {#<div>{{ actuator.getLocationDescription }}</div>#}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">OK</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <li><a data-toggle="modal" data-target="#sensor-{{ sensor.getId }}">{{ sensor.getName }}</a></li>
+                    <li><a href="{{ url('single_sensor', {'sensor_id': sensor.getId}) }}">{{ sensor.getName }}</a></li>
                 {% endfor %}
             </ul>
         </div>
