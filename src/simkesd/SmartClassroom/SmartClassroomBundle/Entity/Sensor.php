@@ -55,7 +55,7 @@ class Sensor
      */
     public function __construct()
     {
-        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sensorValues = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -135,39 +135,6 @@ class Sensor
     public function getCollection()
     {
         return $this->collection;
-    }
-
-    /**
-     * Add values
-     *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values
-     * @return Sensor
-     */
-    public function addValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values)
-    {
-        $this->values[] = $values;
-
-        return $this;
-    }
-
-    /**
-     * Remove values
-     *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values
-     */
-    public function removeValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values)
-    {
-        $this->values->removeElement($values);
-    }
-
-    /**
-     * Get values
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getValues()
-    {
-        return $this->values;
     }
 
     /**

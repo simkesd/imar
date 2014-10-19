@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use simkesd\SmartClassroom\SmartClassroomBundle\Form\EditProfileType;
 use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -199,10 +201,6 @@ class DefaultController extends Controller
 
         $userManager = $this->get('fos_user.user_manager');
         $user = $this->get('security.context')->getToken()->getUser();
-        foreach($actuators as $a) {
-            echo $a->getName();
-            echo "<br>";
-        }
 
         return array('collection'=>$collection, 'user'=>$user, 'actuators'=>$actuators);
     }
@@ -287,6 +285,72 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirect($this->generateUrl('list_collections'), 301);
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @Route("/admin/sensor/{id}", name="single_sensor", requirements={"id" = "\d+"}, defaults={"id" = 1})
+     * @Template("SmartClassroomBundle:Default:singleSensor.html.twig")
+     */
+    public function singleSensorAction($id)
+    {
+        $sensor = $this->getDoctrine()
+            ->getRepository('SmartClassroomBundle:Collection')
+            ->find($id);
+
+        if (!$sensor) {
+            throw $this->createNotFoundException(
+                'No sensor found for id '.$id
+            );
+        }
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return array('sensor'=>$sensor, 'user'=>$user);
+    }
+
+    /**
+     * @param $id
+     * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @Route("/admin/sensor-values/{id}", name="single_sensor_values", requirements={"id" = "\d+"}, defaults={"id" = 1})
+     */
+    public function sensorValues($id)
+    {
+        $sensor = $this->getDoctrine()
+            ->getRepository('SmartClassroomBundle:Sensor')
+            ->find($id);
+        $sensorValues = $sensor->getSensorValues()->getValues();
+
+        $values = array();
+        foreach($sensorValues as $s) {
+            $values[] = array('id' => $s->getId(), 'value' => $s->getValue());
+        }
+
+        $response = new Response(json_encode($values));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+//        return new JsonResponse(array('s'=>$sensor->getSensorValues()->getValues()));
+        exit;
+
+        $sensorValues = $sensor->getCollection()->getName();
+
+        if (!$sensorValues) {
+            throw $this->createNotFoundException(
+                'No sensor found for id '.$id
+            );
+        }
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        var_dump($sensorValues);
     }
 
 }

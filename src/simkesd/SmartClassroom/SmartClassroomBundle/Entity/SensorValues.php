@@ -27,7 +27,7 @@ class SensorValues
      * @ORM\ManyToOne(targetEntity="Sensor", inversedBy="sensorValues")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $actuator;
+    private $sensor;
 
     /**
      * @var integer
@@ -94,25 +94,25 @@ class SensorValues
     }
 
     /**
-     * Set actuator
+     * Set $sensor
      *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $actuator
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensor
      * @return SensorValues
      */
-    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $actuator = null)
+    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensor = null)
     {
-        $this->actuator = $actuator;
+        $this->sensor = $sensor;
 
         return $this;
     }
 
     /**
-     * Get actuator
+     * Get $sensor
      *
      * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor 
      */
     public function getActuator()
     {
-        return $this->actuator;
+        return $this->sensor;
     }
 }
