@@ -158,11 +158,14 @@
         {% block template_sidebar %}
 
         <ul class="nav navbar-nav side-nav">
-            <li class="active">
+            <li class="{{ (app.request.get('_route') == 'admin_dashboard') ? 'active' : '' }}">
                 <a href="{{ url('admin_dashboard') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
             </li>
-            <li>
+            <li class="{{ (app.request.get('_route') == 'list_collections') ? 'active' : '' }}">
                 <a href="{{ url('list_collections') }}"><i class="fa fa-fw fa-bar-chart-o"></i> List Collections</a>
+            </li>
+            <li class="{{ (app.request.get('_route') == 'create_collection') ? 'active' : '' }}">
+                <a href="{{ url('create_collection') }}"><i class="fa fa-fw fa-bar-chart-o"></i> Create Collection</a>
             </li>
             <li>
                 <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
