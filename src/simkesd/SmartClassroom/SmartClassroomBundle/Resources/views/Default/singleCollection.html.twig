@@ -1,0 +1,65 @@
+{% extends 'SmartClassroomBundle:Default:index.html.twig' %}
+
+{% block template_content %}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {{ collection.getName }} -  <small>Collection</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> collection with id {{ collection.getId }}
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    {#<div class="row">#}
+        {#<div class="col-lg-12">#}
+            {#<h1></h1>#}
+            {#<a href="{{ url('create_collection') }}">Create collection</a>#}
+        {#</div>#}
+    {#</div>#}
+    {#<!-- /.row -->#}
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>Details</h3>
+            <p>Name: <br/>{{ collection.getName }}</p>
+            <p>Description: <br/>{{ collection.getDescription }}</p>
+            <p>Location description: <br/>{{ collection.getLocationDescription }}</p>
+        </div>
+        <div class="col-sm-4">
+            <h3>List of sensors</h3>
+            <ul>
+                {% for sensor in collection.getSensors %}
+                    <li>{{ sensor.getName }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-sm-4">
+            <h3>List of actuators</h3>
+            <ul>
+                {% for actuator in collection.getActuators %}
+                    <li>{{ actuator.getName }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{{ url('create_sensor', {'collection_id': collection.getId}) }}">Add sensor</a>
+            |
+            <a href="{{ url('create_actuator', {'collection_id': collection.getId}) }}">Add actuator</a>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->
+<hr>
+{% endblock %}

@@ -5,12 +5,12 @@ namespace simkesd\SmartClassroom\SmartClassroomBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Product
+ * ActuatorValues
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValuesRepository")
  */
-class Product
+class ActuatorValues
 {
     /**
      * @var integer
@@ -20,6 +20,14 @@ class Product
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Actuator",inversedBy="actuator_values")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    private $collection;
 
 
     /**

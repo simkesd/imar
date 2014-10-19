@@ -31,7 +31,7 @@
             <h1>Collections</h1>
             <ul>
                 {% for collection in collections %}
-                    <li>{{ collection.getName }}</li>
+                    <li><a href="{{ url('single_collection', {'id': collection.getId}) }}">{{ collection.getId }}. {{ collection.getName }}</a></li>
                 {% endfor %}
             </ul>
         </div>

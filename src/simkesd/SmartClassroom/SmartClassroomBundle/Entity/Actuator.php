@@ -5,12 +5,12 @@ namespace simkesd\SmartClassroom\SmartClassroomBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sensor
+ * Actuator
  *
- * @ORM\Table(name="sensors")
- * @ORM\Entity
+ * @ORM\Table(name="actuators")
+ * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorRepository")
  */
-class Sensor
+class Actuator
 {
     /**
      * @var integer
@@ -38,7 +38,7 @@ class Sensor
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="sensors")
+     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="actuators")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     private $collection;
@@ -46,9 +46,10 @@ class Sensor
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="SensorValues", mappedBy="sensors")
+     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuators")
      */
     private $values;
+
 
     /**
      * Constructor
@@ -57,8 +58,6 @@ class Sensor
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-
 
     /**
      * Get id
@@ -74,7 +73,7 @@ class Sensor
      * Set name
      *
      * @param string $name
-     * @return Sensor
+     * @return Actuator
      */
     public function setName($name)
     {
@@ -97,7 +96,7 @@ class Sensor
      * Set description
      *
      * @param string $description
-     * @return Sensor
+     * @return Actuator
      */
     public function setDescription($description)
     {
@@ -120,7 +119,7 @@ class Sensor
      * Set collection
      *
      * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection $collection
-     * @return Sensor
+     * @return Actuator
      */
     public function setCollection(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection $collection = null)
     {
@@ -142,10 +141,10 @@ class Sensor
     /**
      * Add values
      *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values
-     * @return Sensor
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values
+     * @return Actuator
      */
-    public function addValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values)
+    public function addValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values)
     {
         $this->values[] = $values;
 
@@ -155,9 +154,9 @@ class Sensor
     /**
      * Remove values
      *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values
      */
-    public function removeValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $values)
+    public function removeValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values)
     {
         $this->values->removeElement($values);
     }

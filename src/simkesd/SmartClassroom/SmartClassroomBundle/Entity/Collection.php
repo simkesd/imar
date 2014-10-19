@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Collection
  *
- * @ORM\Table()
+ * @ORM\Table(name="collections")
  * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\CollectionRepository")
  */
 class Collection
@@ -46,9 +46,28 @@ class Collection
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="Sensor", mappedBy="collections")
+     * @ORM\OneToMany(targetEntity="Sensor", mappedBy="collection")
      */
     private $sensors;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="Actuator", mappedBy="collection")
+     */
+    private $actuators;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->sensors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actuators = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
 
     /**
      * Get id
@@ -129,4 +148,69 @@ class Collection
         return $this->locationDescription;
     }
 
+    /**
+     * Add sensors
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensors
+     * @return Collection
+     */
+    public function addSensor(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensors)
+    {
+        $this->sensors[] = $sensors;
+
+        return $this;
+    }
+
+    /**
+     * Remove sensors
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensors
+     */
+    public function removeSensor(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensors)
+    {
+        $this->sensors->removeElement($sensors);
+    }
+
+    /**
+     * Get sensors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSensors()
+    {
+        return $this->sensors;
+    }
+
+    /**
+     * Add actuators
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuators
+     * @return Collection
+     */
+    public function addActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuators)
+    {
+        $this->actuators[] = $actuators;
+
+        return $this;
+    }
+
+    /**
+     * Remove actuators
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuators
+     */
+    public function removeActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuators)
+    {
+        $this->actuators->removeElement($actuators);
+    }
+
+    /**
+     * Get actuators
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActuators()
+    {
+        return $this->actuators;
+    }
 }

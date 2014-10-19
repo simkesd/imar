@@ -5,12 +5,12 @@ namespace simkesd\SmartClassroom\SmartClassroomBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Collection
+ * Sensor
  *
- * @ORM\Table(name="collections")
- * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\CollectionRepository")
+ * @ORM\Table(name="sensors")
+ * @ORM\Entity
  */
-class Collection
+class Sensor
 {
     /**
      * @var integer
@@ -38,33 +38,24 @@ class Collection
     /**
      * @var integer
      *
-     * @ORM\Column(name="location_description", type="text")
+     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="sensors")
+     * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $locationDescription;
-
+    private $collection;
 
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="Sensor", mappedBy="collection")
+     * @ORM\OneToMany(targetEntity="SensorValues", mappedBy="sensors")
      */
-    private $sensors;
-
-    /**
-     * @var integer
-     *
-     * @ORM\OneToMany(targetEntity="Actuator", mappedBy="collection")
-     */
-    private $actuators;
-
+    private $values;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->sensors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->actuators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 

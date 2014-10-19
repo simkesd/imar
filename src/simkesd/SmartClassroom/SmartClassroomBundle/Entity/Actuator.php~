@@ -1,0 +1,54 @@
+<?php
+
+namespace simkesd\SmartClassroom\SmartClassroomBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Actuator
+ *
+ * @ORM\Table(name="actuators")
+ * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorRepository")
+ */
+class Actuator
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="actuators")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    private $collection;
+
+    /**
+     * @var integer
+     *
+     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuators")
+     */
+    private $values;
+
+
+}
