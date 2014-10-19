@@ -95,8 +95,6 @@ class DefaultController extends Controller
             ->getForm();
 
         $form->handleRequest($this->get('request'));
-        print_r($user);
-        exit;
 //        if($request->get('password') != $request->get('confirm_password')) {
 //            return $this->redirect($this->generateUrl('register_post'), 301);
 //        }
@@ -139,44 +137,46 @@ class DefaultController extends Controller
     }
 
     /**
-     * @return array
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/admin/create-collection", name="create_collection")
-     * @Method({"GET"})
+
      * @Template("SmartClassroomBundle:Default:createCollection.html.twig")
      */
     public function createCollectionAction()
     {
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $this->get('security.context')->getToken()->getUser();
-        return array('user'=>$user);
-    }
-
-    /**
-     * @return array
-     *
-     * @Route("/admin/create-collection", name="create_collection_post")
-     * @Method({"POST"})
-     */
-    public function postCreateCollectionAction()
-    {
-        $request = $this->get('request')->request;
+//        * @Method({"GET"})
+        $request = $this->get('request');
 
         $collection = new Collection();
-        $collection->setName($request->get('name'));
-        $collection->setDescription($request->get('description'));
-        $collection->setLocationDescription($request->get('locationDescription'));
+        $form = $this->createFormBuilder($collection)
+            ->add('name')
+            ->add('file')
+            ->add('description')
+            ->add('location_description')
+            ->getForm();
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($collection);
-        $em->flush();
+        $form->handleRequest($request);
 
-        return $this->redirect($this->generateUrl('list_collections'), 301);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($collection);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('list_collections'), 301);
+        }
+
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        return array('form' => $form->createView(), 'user' => $user);
     }
 
     /**
      * @param $id
      * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * @Route("/admin/collection/{id}", name="single_collection", requirements={"id" = "\d+"}, defaults={"id" = 1})
      * @Template("SmartClassroomBundle:Default:singleCollection.html.twig")
@@ -236,6 +236,7 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param $collection_id
      * @return array
      *
      * @Route("/admin/create-sensor/{collection_id}", name="create_sensor", requirements={"collection_id" = "\d+"})
@@ -250,6 +251,7 @@ class DefaultController extends Controller
     }
 
     /**
+     * @param $collection_id
      * @return array
      *
      * @Route("/admin/create-actuator/{collection_id}", name="create_actuator", requirements={"collection_id" = "\d+"})

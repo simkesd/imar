@@ -2,19 +2,18 @@
 
 {% block template_content %}
 
-    {#<div class="container-fluid">#}
-
     <div class="container-fluid">
         <h1>Create collection</h1>
         <hr>
         <div class="row">
+            {{ form_start(form, {'action': url('create_collection') , 'method': 'POST', 'attr': {'class': 'form-horizontal', 'role': 'form'}}, form_enctype(form)) }}
             <!-- left column -->
             <div class="col-md-3">
                 <div class="text-center">
                     <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
                     <h6>Upload a different photo...</h6>
 
-                    <input type="file" class="form-control">
+                    {{ form_widget(form.file, { 'attr': {'class': 'form-control'} }) }}
                 </div>
             </div>
 
@@ -27,35 +26,34 @@
                 </div>
                 <h3>Collection info</h3>
 
-                <form action="{{ url('create_collection_post') }}" method="POST" class="form-horizontal" role="form">
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">Name of collection:</label>
-                        <div class="col-lg-8">
-                            <input name="name" class="form-control" type="text" value="">
-                        </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Name:</label>
+                    <div class="col-lg-8">
+                        {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
                     </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">Description of collection:</label>
-                        <div class="col-lg-8">
-                            <input name="description" class="form-control" type="text" value="">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Description:</label>
+                    <div class="col-lg-8">
+                        {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
                     </div>
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label">Description of location of collection:</label>
-                        <div class="col-lg-8">
-                            <input name="locationDescription" class="form-control" type="text" value="">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Location description:</label>
+                    <div class="col-lg-8">
+                        {{ form_widget(form.location_description, { 'attr': {'class': 'form-control'} }) }}
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label"></label>
-                        <div class="col-md-8">
-                            <input type="submit" class="btn btn-primary" value="Save Changes">
-                            <span></span>
-                            <input type="reset" class="btn btn-default" value="Cancel">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save Changes">
+                        <span></span>
+                        <input type="reset" class="btn btn-default" value="Cancel">
                     </div>
-                </form>
+                </div>
             </div>
+            {{ form_end(form) }}
         </div>
     </div>
     <hr>
