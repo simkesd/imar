@@ -46,9 +46,9 @@ class Actuator
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuators")
+     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuator")
      */
-    private $values;
+    private $actuatorValues;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -202,5 +202,61 @@ class Actuator
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Actuator
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * Add actuatorValues
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $actuatorValues
+     * @return Actuator
+     */
+    public function addActuatorValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $actuatorValues)
+    {
+        $this->actuatorValues[] = $actuatorValues;
+
+        return $this;
+    }
+
+    /**
+     * Remove actuatorValues
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $actuatorValues
+     */
+    public function removeActuatorValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $actuatorValues)
+    {
+        $this->actuatorValues->removeElement($actuatorValues);
+    }
+
+    /**
+     * Get actuatorValues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActuatorValues()
+    {
+        return $this->actuatorValues;
     }
 }

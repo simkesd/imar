@@ -24,10 +24,17 @@ class ActuatorValues
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Actuator",inversedBy="actuator_values")
+     * @ORM\ManyToOne(targetEntity="Actuator", inversedBy="actuatorValues")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     private $actuator;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="value", type="integer")
+     */
+    private $value;
 
     /**
      * Get id
@@ -40,25 +47,48 @@ class ActuatorValues
     }
 
     /**
-     * Set collection
+     * Set actuator
      *
-     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $collection
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuator
      * @return ActuatorValues
      */
-    public function setCollection(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $collection = null)
+    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuator = null)
     {
-        $this->collection = $collection;
+        $this->actuator = $actuator;
 
         return $this;
     }
 
     /**
-     * Get collection
+     * Get actuator
      *
      * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator 
      */
-    public function getCollection()
+    public function getActuator()
     {
-        return $this->collection;
+        return $this->actuator;
+    }
+
+    /**
+     * Set value
+     *
+     * @param integer $value
+     * @return ActuatorValues
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return integer 
+     */
+    public function getValue()
+    {
+        return $this->value;
     }
 }

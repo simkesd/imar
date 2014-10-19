@@ -46,9 +46,161 @@ class Actuator
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuators")
+     * @ORM\OneToMany(targetEntity="ActuatorValues", mappedBy="actuator")
      */
-    private $values;
+    private $actuatorValues;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public $path;
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/documents';
+    }
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Actuator
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Actuator
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set collection
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection $collection
+     * @return Actuator
+     */
+    public function setCollection(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection $collection = null)
+    {
+        $this->collection = $collection;
+
+        return $this;
+    }
+
+    /**
+     * Get collection
+     *
+     * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection 
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * Add values
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values
+     * @return Actuator
+     */
+    public function addValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values)
+    {
+        $this->values[] = $values;
+
+        return $this;
+    }
+
+    /**
+     * Remove values
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values
+     */
+    public function removeValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValues $values)
+    {
+        $this->values->removeElement($values);
+    }
+
+    /**
+     * Get values
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
 }

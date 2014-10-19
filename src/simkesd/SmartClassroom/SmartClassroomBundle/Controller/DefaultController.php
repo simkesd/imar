@@ -140,12 +140,10 @@ class DefaultController extends Controller
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/admin/create-collection", name="create_collection")
-
      * @Template("SmartClassroomBundle:Default:createCollection.html.twig")
      */
     public function createCollectionAction()
     {
-//        * @Method({"GET"})
         $request = $this->get('request');
 
         $collection = new Collection();

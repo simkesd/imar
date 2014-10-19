@@ -24,10 +24,17 @@ class SensorValues
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Sensor",inversedBy="sensor_values")
+     * @ORM\ManyToOne(targetEntity="Sensor", inversedBy="sensorValues")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $sensor;
+    private $actuator;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="value", type="integer")
+     */
+    private $value;
 
 
     /**
@@ -61,5 +68,51 @@ class SensorValues
     public function getCollection()
     {
         return $this->collection;
+    }
+
+    /**
+     * Set value
+     *
+     * @param integer $value
+     * @return SensorValues
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return integer 
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set actuator
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $actuator
+     * @return SensorValues
+     */
+    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $actuator = null)
+    {
+        $this->actuator = $actuator;
+
+        return $this;
+    }
+
+    /**
+     * Get actuator
+     *
+     * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor 
+     */
+    public function getActuator()
+    {
+        return $this->actuator;
     }
 }

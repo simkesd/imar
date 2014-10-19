@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ActuatorValues
  *
- * @ORM\Table()
+ * @ORM\Table(name="actuator_values")
  * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\ActuatorValuesRepository")
  */
 class ActuatorValues
@@ -24,11 +24,17 @@ class ActuatorValues
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Actuator",inversedBy="actuator_values")
+     * @ORM\ManyToOne(targetEntity="Actuator", inversedBy="actuatorValues")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $collection;
+    private $actuator;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="value", type="integer")
+     */
+    private $value;
 
     /**
      * Get id
@@ -38,5 +44,28 @@ class ActuatorValues
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set actuator
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuator
+     * @return ActuatorValues
+     */
+    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator $actuator = null)
+    {
+        $this->actuator = $actuator;
+
+        return $this;
+    }
+
+    /**
+     * Get actuator
+     *
+     * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator 
+     */
+    public function getActuator()
+    {
+        return $this->actuator;
     }
 }

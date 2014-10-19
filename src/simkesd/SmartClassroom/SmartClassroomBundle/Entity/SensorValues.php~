@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * SensorValues
  *
- * @ORM\Table()
+ * @ORM\Table(name="sensor_values")
  * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValuesRepository")
  */
 class SensorValues
@@ -24,10 +24,17 @@ class SensorValues
     /**
      * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Sensor",inversedBy="sensor_values")
+     * @ORM\ManyToOne(targetEntity="Sensor", inversedBy="sensorValues")
      * @ORM\JoinColumn(referencedColumnName="id")
      */
-    private $collection;
+    private $actuator;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="value", type="integer")
+     */
+    private $value;
 
 
     /**

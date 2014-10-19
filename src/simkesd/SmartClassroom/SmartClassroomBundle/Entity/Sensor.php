@@ -46,9 +46,9 @@ class Sensor
     /**
      * @var integer
      *
-     * @ORM\OneToMany(targetEntity="SensorValues", mappedBy="sensors")
+     * @ORM\OneToMany(targetEntity="SensorValues", mappedBy="sensor")
      */
-    private $values;
+    private $sensorValues;
 
     /**
      * Constructor
@@ -57,8 +57,6 @@ class Sensor
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-
 
     /**
      * Get id
@@ -170,5 +168,38 @@ class Sensor
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * Add sensorValues
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $sensorValues
+     * @return Sensor
+     */
+    public function addSensorValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $sensorValues)
+    {
+        $this->sensorValues[] = $sensorValues;
+
+        return $this;
+    }
+
+    /**
+     * Remove sensorValues
+     *
+     * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $sensorValues
+     */
+    public function removeSensorValue(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues $sensorValues)
+    {
+        $this->sensorValues->removeElement($sensorValues);
+    }
+
+    /**
+     * Get sensorValues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSensorValues()
+    {
+        return $this->sensorValues;
     }
 }
