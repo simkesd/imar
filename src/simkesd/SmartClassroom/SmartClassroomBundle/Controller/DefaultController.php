@@ -5,6 +5,7 @@ namespace simkesd\SmartClassroom\SmartClassroomBundle\Controller;
 use simkesd\SmartClassroom\SmartClassroomBundle\Entity\Actuator;
 use simkesd\SmartClassroom\SmartClassroomBundle\Entity\Collection;
 use simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor;
+use simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValues;
 use simkesd\SmartClassroom\SmartClassroomBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -178,7 +179,7 @@ class DefaultController extends Controller
      * @return array
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
-     * @Route("/admin/collection/{id}", name="single_collection", requirements={"id" = "\d+"}, defaults={"id" = 1})
+     * @Route("/admin/collection/{id}", name="single_collection", requirements={"id" = "\d+"})
      * @Template("SmartClassroomBundle:Default:singleCollection.html.twig")
      */
     public function singleCollectionAction($id)
@@ -228,7 +229,7 @@ class DefaultController extends Controller
         $em->persist($sensor);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('list_collections'), 301);
+        return $this->redirect($this->generateUrl('single_collection', array("id"=>$collection->getId())), 301);
     }
 
     /**
@@ -293,18 +294,18 @@ class DefaultController extends Controller
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
      * 
-     * @Route("/admin/sensor/{id}", name="single_sensor", requirements={"id" = "\d+"}, defaults={"id" = 1})
+     * @Route("/admin/sensor/{sensor_id}", name="single_sensor", requirements={"sensor_id" = "\d+"})
      * @Template("SmartClassroomBundle:Default:singleSensor.html.twig")
      */
-    public function singleSensorAction($id)
+    public function singleSensorAction($sensor_id)
     {
         $sensor = $this->getDoctrine()
-            ->getRepository('SmartClassroomBundle:Collection')
-            ->find($id);
+            ->getRepository('SmartClassroomBundle:Sensor')
+            ->find($sensor_id);
 
         if (!$sensor) {
             throw $this->createNotFoundException(
-                'No sensor found for id '.$id
+                'No sensor found for id '.$sensor_id
             );
         }
 
@@ -336,21 +337,41 @@ class DefaultController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
-//        return new JsonResponse(array('s'=>$sensor->getSensorValues()->getValues()));
-        exit;
+    }
 
-        $sensorValues = $sensor->getCollection()->getName();
+    /**
+     * @param $sensor_id
+     * @return Response
+     *
+     * @Route("/admin/create-sensor-value/{sensor_id}", name="create_sensor_value", requirements={"sensor_id" = "\d+"})
+     */
+    public function updateSensorValueAction($sensor_id)
+    {
+        try {
+            $request = $this->get('request')->query;
 
-        if (!$sensorValues) {
-            throw $this->createNotFoundException(
-                'No sensor found for id '.$id
-            );
+            $sensor = $this->getDoctrine()
+                ->getRepository('SmartClassroomBundle:Sensor')
+                ->find($sensor_id);
+
+            $sensorValue = new SensorValues();
+            $sensorValue->setSensor($sensor);
+            $sensorValue->setValue($request->get('value'));
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($sensorValue);
+            $em->flush();
+
+            $response = new Response(json_encode(array("status" => "OK")));
+            $response->headers->set('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            $response = new Response(json_encode(array("status" => "FAILED")));
+            $response->headers->set('Content-Type', 'application/json');
         }
 
-        $userManager = $this->get('fos_user.user_manager');
-        $user = $this->get('security.context')->getToken()->getUser();
 
-        var_dump($sensorValues);
+        return $response;
     }
 
 }
