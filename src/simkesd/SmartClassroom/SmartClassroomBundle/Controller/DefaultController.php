@@ -292,7 +292,7 @@ class DefaultController extends Controller
      * @return array
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      *
-     * 
+     *
      * @Route("/admin/sensor/{id}", name="single_sensor", requirements={"id" = "\d+"}, defaults={"id" = 1})
      * @Template("SmartClassroomBundle:Default:singleSensor.html.twig")
      */
