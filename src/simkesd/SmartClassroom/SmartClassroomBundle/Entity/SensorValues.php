@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="sensor_values")
  * @ORM\Entity(repositoryClass="simkesd\SmartClassroom\SmartClassroomBundle\Entity\SensorValuesRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class SensorValues
 {
@@ -35,6 +36,35 @@ class SensorValues
      * @ORM\Column(name="value", type="integer")
      */
     private $value;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updatedTimestamps()
+    {
+        $this->setUpdatedAt(new \DateTime('now'));
+
+        if ($this->getCreatedAt() == null) {
+            $this->setCreatedAt(new \DateTime('now'));
+        }
+    }
+
 
 
     /**
@@ -99,7 +129,7 @@ class SensorValues
      * @param \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensor
      * @return SensorValues
      */
-    public function setActuator(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensor = null)
+    public function setSensor(\simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor $sensor = null)
     {
         $this->sensor = $sensor;
 
@@ -111,8 +141,54 @@ class SensorValues
      *
      * @return \simkesd\SmartClassroom\SmartClassroomBundle\Entity\Sensor 
      */
-    public function getActuator()
+    public function getSensor()
     {
         return $this->sensor;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return SensorValues
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     * @return SensorValues
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime 
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
